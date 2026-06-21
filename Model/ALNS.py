@@ -139,12 +139,10 @@ def alns(
     instance,
     iterations,
     mode="qlearning",
-    # --- shared ---
     lambda_1=0.10,
     lambda_2=0.40,
     initial_solution=None,
     random_seed=1,
-    # --- qlearning (hybrid) params: Q-learning + Simulated Annealing ---
     alpha=0.5,
     gamma=0.7,
     epsilon_decay_rate=0.99,
@@ -153,7 +151,6 @@ def alns(
     sa_start_pct=0.05,
     sa_end_pct=0.0001,
     sa_accept_prob_start=0.5,
-    # --- base params: AOS roulette wheel + threshold acceptance ---
     threshold_start=0.10,
     segment_size=100,
     reaction_factor=0.1,
@@ -218,10 +215,7 @@ def _run_qlearning(
     lambda_1, lambda_2, alpha, gamma, epsilon_decay_rate,
     eta_reward, C, sa_start_pct, sa_end_pct, sa_accept_prob_start,
 ):
-    # Build the combined action space: destroy x repair x noise.
-    # Each action maps a readable name to the (destroy_fn, repair_fn, noise_flag)
-    # triple that should be applied when that action is chosen, so the reward is
-    # assigned to the combination that was actually applied.
+    
     combination_operators = {}
     for (d_name, d_fn), (r_name, r_fn), (n_name, n_flag) in product(
         destroy_operators.items(),
@@ -341,16 +335,14 @@ def _run_qlearning(
 
 
 # ---------------------------------------------------------------------------
-# base mode: AOS roulette wheel + threshold acceptance (pure metaheuristic)
+# base mode: AOS roulette wheel + threshold acceptance 
 # ---------------------------------------------------------------------------
 def _run_base(
     instance, iterations, current_solution, best_solution, max_N,
     destroy_operators, repair_operators, noise_options,
     lambda_1, lambda_2, threshold_start, segment_size, reaction_factor,
 ):
-    # Three independent adaptive selectors, exactly as in the paper: destroy,
-    # repair and noise each have their own roulette-wheel weights that are
-    # updated every segment_size iterations.
+
     aos_destroy = AOS(destroy_operators, segment_size=segment_size,
                       reaction_factor=reaction_factor)
     aos_repair = AOS(repair_operators, segment_size=segment_size,
@@ -381,8 +373,6 @@ def _run_base(
         current_cost = current_solution.total_cost
         best_cost = best_solution.total_cost if best_solution is not None else float("inf")
 
-        # Threshold acceptance: accept a candidate if its gap above the best
-        # solution found so far is below the (linearly shrinking) threshold T.
         T = linear_threshold(iteration, iterations, threshold_start)
 
         score_type = None
@@ -404,16 +394,9 @@ def _run_base(
                     best_solution = deepcopy(candidate_solution)
 
         elif best_solution is None:
-            # No feasible solution found yet: accept infeasible candidates as
-            # current_solution if they reduce total cost, so the search can
-            # keep moving and reach feasibility from different positions.
-            # best_solution is NOT updated here — it stays None until a
-            # feasible candidate is found.
             if candidate_cost < current_cost:
                 current_solution = deepcopy(candidate_solution)
 
-        # Update adaptive weights for all three selectors with the same outcome
-        # score (standard ALNS credit assignment).
         for agent, op_name in (
             (aos_destroy, destroy_name),
             (aos_repair, repair_name),

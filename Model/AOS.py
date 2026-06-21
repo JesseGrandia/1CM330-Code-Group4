@@ -8,7 +8,7 @@ class AOS:
         self.reaction_factor = reaction_factor
         
         # Scoring rewards
-        self.sigma_1 = 10  # New global best
+        self.sigma_1 = 10  
         self.sigma_2 = 5   # Better than current
         self.sigma_3 = 2   # Accepted (worse than current but passes threshold)
 

@@ -12,18 +12,18 @@ def main():
     
     # 2. Define your Grid Search space
     param_grid = [
-    {'alpha': 0.3, 'epsilon_decay_rate': 0.95, 'eta_reward': 0.6, 'C': 1.0},
-    {'alpha': 0.3, 'epsilon_decay_rate': 0.99, 'eta_reward': 0.8, 'C': 1.0},
-    {'alpha': 0.5, 'epsilon_decay_rate': 0.95, 'eta_reward': 0.6, 'C': 1.0},
-    {'alpha': 0.5, 'epsilon_decay_rate': 0.99, 'eta_reward': 0.8, 'C': 1.0},
-    {'alpha': 0.3, 'epsilon_decay_rate': 0.95, 'eta_reward': 0.6, 'C': 10.0},
-    {'alpha': 0.3, 'epsilon_decay_rate': 0.99, 'eta_reward': 0.8, 'C': 10.0},
-    {'alpha': 0.5, 'epsilon_decay_rate': 0.95, 'eta_reward': 0.6, 'C': 10.0},
-    {'alpha': 0.5, 'epsilon_decay_rate': 0.99, 'eta_reward': 0.8, 'C': 10.0},
-    {'alpha': 0.7, 'epsilon_decay_rate': 0.95, 'eta_reward': 0.8, 'C': 5.0},
-    {'alpha': 0.7, 'epsilon_decay_rate': 0.99, 'eta_reward': 0.8, 'C': 5.0},
-    {'alpha': 0.5, 'epsilon_decay_rate': 0.99, 'eta_reward': 0.9, 'C': 5.0},
-    {'alpha': 0.5, 'epsilon_decay_rate': 0.99, 'eta_reward': 0.9, 'C': 50.0},
+    {'alpha': 0.3, 'eta_reward': 0.6, 'C': 1.0},
+    {'alpha': 0.3, 'eta_reward': 0.8, 'C': 1.0},
+    {'alpha': 0.5, 'eta_reward': 0.6, 'C': 1.0},
+    {'alpha': 0.5, 'eta_reward': 0.8, 'C': 1.0},
+    {'alpha': 0.3, 'eta_reward': 0.6, 'C': 10.0},
+    {'alpha': 0.3, 'eta_reward': 0.8, 'C': 10.0},
+    {'alpha': 0.5, 'eta_reward': 0.6, 'C': 10.0},
+    {'alpha': 0.5, 'eta_reward': 0.8, 'C': 10.0},
+    {'alpha': 0.7, 'eta_reward': 0.8, 'C': 5.0},
+    {'alpha': 0.7, 'eta_reward': 0.8, 'C': 5.0},
+    {'alpha': 0.5, 'eta_reward': 0.9, 'C': 5.0},
+    {'alpha': 0.5, 'eta_reward': 0.9, 'C': 50.0},
     ]
 
     best_cost = float('inf')
